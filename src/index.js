@@ -3,14 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { Icon } from 'antd';
-
-<Icon type="loading" spin={true} />
+import AppProviders from './context';
 
 ReactDOM.render(
-  <AppProvider>
+  <AppProviders>
     <App />
-  </AppProvider>, 
+  </AppProviders>,
 document.getElementById('root'))
 
 // If you want your app to work offline and load faster, you can change

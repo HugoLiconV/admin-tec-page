@@ -7,7 +7,8 @@ function UserProvider(props) {
   const {
     data: {user},
   } = useAuth()
-  return <UserContext.Provider value={user} {...props} />
+   
+  return <UserContext.Provider value = { user } {...props} />
 }
 
 function useUser() {

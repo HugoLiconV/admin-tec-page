@@ -1,9 +1,11 @@
 import React from 'react'
+import "antd/dist/antd.css";
 import {useUser} from './context/user-context'
+import { Icon } from "antd";
 
-const loadAuthenticatedApp = () => import('./authenticated-app')
+const loadAuthenticatedApp = () => import('./pages/Home')
 const AuthenticatedApp = React.lazy(loadAuthenticatedApp)
-const UnauthenticatedApp = React.lazy(() => import('./unauthenticated-app'))
+const UnauthenticatedApp = React.lazy(() => import('./pages/Login'))
 
 function App() {
   const user = useUser()
@@ -14,10 +16,10 @@ function App() {
   }, [])
 
   return (
-    <React.Suspense fallback={<FullPageSpinner />}>
-      {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
+    <React.Suspense fallback={<Icon type="loading" spin={true} />}>
+      {user ? <AuthenticatedApp user={user} /> : <UnauthenticatedApp />}
     </React.Suspense>
-  )
+  );
 }
 
 export default App
