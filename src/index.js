@@ -1,9 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import "antd/dist/antd.css";
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import AppProviders from './context';
+import dayjs from 'dayjs';
+import 'dayjs/locale/es' // load on demand
+
+dayjs.locale('es') // use Spanish locale globally
 
 ReactDOM.render(
   <AppProviders>

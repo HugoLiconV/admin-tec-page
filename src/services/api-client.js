@@ -18,8 +18,6 @@ axios.interceptors.request.use(
 );
 
 function client(endpoint, { method = "get", data, options } = {}) {
-  console.log("TCL: client -> method", method)
-  console.log("TCL: client -> data", data)
   return axios[method](endpoint, data, options);
 }
 

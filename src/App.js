@@ -1,9 +1,8 @@
 import React from 'react'
-import "antd/dist/antd.css";
 import {useUser} from './context/user-context'
 import { Icon } from "antd";
 
-const loadAuthenticatedApp = () => import('./pages/Home')
+const loadAuthenticatedApp = () => import('./pages/AuthenticatedApp')
 const AuthenticatedApp = React.lazy(loadAuthenticatedApp)
 const UnauthenticatedApp = React.lazy(() => import('./pages/Login'))
 

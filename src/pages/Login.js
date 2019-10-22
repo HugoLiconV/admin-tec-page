@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography } from "antd";
+import { Typography, Avatar } from "antd";
 import { Form, Icon, Input, Button } from "antd";
 import "./Login.css";
 import { useAuth } from "../context/auth-context";
@@ -25,7 +25,17 @@ const Login = function({ form }) {
   return (
     <div className="page">
       <div className="container">
-        <Title>Iniciar sesión</Title>
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+          <Avatar
+            size={96}
+            src={require("../assets/img/bison.svg")}
+            style={{ marginRight: 16 }}
+          />
+          <Title level={1}>NotiTec</Title>
+        </div>
+        <Title style={{ textAlign: "center" }} level={2}>
+          Iniciar sesión
+        </Title>
         <Form onSubmit={handleSubmit} className="login-form">
           <Form.Item>
             {getFieldDecorator("email", {
@@ -41,14 +51,18 @@ const Login = function({ form }) {
                 prefix={
                   <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
                 }
-                placeholder="Username"
+                placeholder="Email"
               />
             )}
           </Form.Item>
           <Form.Item>
             {getFieldDecorator("password", {
               rules: [
-                { required: true, message: "Introduce una contraseña", min: 6 }
+                { required: true, message: "Introduce una contraseña" },
+                {
+                  min: 6,
+                  message: "La contraseña debe de tener más de 6 caracteres"
+                }
               ]
             })(
               <Input
@@ -56,12 +70,13 @@ const Login = function({ form }) {
                   <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
                 }
                 type="password"
-                placeholder="Password"
+                placeholder="Contraseña"
               />
             )}
           </Form.Item>
           <Form.Item>
             <Button
+              block
               type="primary"
               htmlType="submit"
               className="login-form-button"
