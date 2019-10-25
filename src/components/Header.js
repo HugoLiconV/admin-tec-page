@@ -23,11 +23,6 @@ const Header = props => {
     data: { user },
     logout
   } = useAuth();
-  // const currentRoute = props.location.pathname;
-
-  function handleMenuClick(e) {
-    console.log("TCL: handleMenuClick -> e", e);
-  }
 
   const menu = (
     <Menu>
@@ -47,7 +42,6 @@ const Header = props => {
   return (
     <Location>
       {({ location }) => {
-      console.log("TCL: location", location)
         return (
           <Layout.Header
             className="header"
@@ -96,7 +90,6 @@ const Header = props => {
               </div>
             </Link>
             <Menu
-              onClick={handleMenuClick}
               selectedKeys={[location.pathname]}
               mode="horizontal"
               style={{ borderBottom: "none" }}
@@ -108,10 +101,10 @@ const Header = props => {
                 </NavLink>
               </Menu.Item>
               <Menu.Item
-                key="/create-announcement"
+                key="/announcements"
                 style={{ borderBottom: "none" }}
               >
-                <NavLink to="/create-announcement">
+                <NavLink to="/announcements">
                   <Icon type="plus" />
                   Añadir
                 </NavLink>

@@ -1,12 +1,14 @@
 import axios from "axios";
 import { AUTH_TOKEN } from "../constants";
 
-axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+const instance = axios.create();
 
-axios.interceptors.request.use(
+instance.defaults.baseURL = process.env.REACT_APP_API_URL;
+
+instance.interceptors.request.use(
   async config => {
+    console.log("Interceptor")
     const token = await window.localStorage.getItem(AUTH_TOKEN);
-    console.log("TCL: token", token)
     if (token && !config.headers.Authorization) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -18,7 +20,7 @@ axios.interceptors.request.use(
 );
 
 function client(endpoint, { method = "get", data, options } = {}) {
-  return axios[method](endpoint, data, options);
+  return instance[method](endpoint, data, options);
 }
 
 export default client;

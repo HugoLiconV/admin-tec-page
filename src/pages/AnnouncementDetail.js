@@ -18,17 +18,18 @@ const AnnouncementDetail = ({ id }) => {
         {data && data.image && (
           <div
             style={{
-              display: "flex",
-              justifyContent: "center",
-              width: "100%",
+              display: 'flex',
+              justifyContent: 'center',
+              width: '100%',
               height: 400
             }}
           >
             <img
               alt="Imagen de noticia"
               style={{
-                height: "100%",
-                objectFit: "cover"
+                height: '100%',
+                width: '100%',
+                objectFit: 'contain'
               }}
               src={data.image}
             />
@@ -38,13 +39,13 @@ const AnnouncementDetail = ({ id }) => {
         <div style={{ marginBottom: 16 }}>
           <Typography.Text type="secondary">
             <Icon type="clock-circle" style={{ marginRight: 8 }} />
-            {dayjs(data && data.createdAt).format("D MMMM YYYY hh:mm a")}
+            {dayjs(data && data.createdAt).format('D MMMM YYYY hh:mm a')}
           </Typography.Text>
         </div>
         <span>
           {tags.length > 0 ? (
             tags.map(tag => {
-              let color = tag.length > 5 ? "geekblue" : "green";
+              let color = tag.length > 5 ? 'geekblue' : 'green';
               return (
                 <Tag color={color} key={tag}>
                   {tag.toUpperCase()}
