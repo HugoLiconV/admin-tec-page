@@ -101,10 +101,10 @@ const Header = props => {
                 </NavLink>
               </Menu.Item>
               <Menu.Item
-                key="/announcements"
+                key="/create-announcement"
                 style={{ borderBottom: "none" }}
               >
-                <NavLink to="/announcements">
+                <NavLink to="/create-announcement">
                   <Icon type="plus" />
                   Añadir
                 </NavLink>

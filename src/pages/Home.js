@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { Button, Icon, Typography, Tooltip, Popconfirm, message, Input } from 'antd';
 import CardContainer from '../components/CardContainer';
+import { navigate } from '@reach/router';
 import { Table, Divider, Tag } from 'antd';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useAsync } from 'react-async';
 import { getNews, deleteNews } from '../services/news-client';
-import { navigate } from '@reach/router';
 
 dayjs.extend(relativeTime);
 
 const Home = () => {
-  const [, setSearchText] = useState("initialState")
+  const [, setSearchText] = useState('initialState');
   const pagination = {
     limit: 5,
     skip: 0
@@ -56,7 +56,7 @@ const Home = () => {
       record[dataIndex]
         .toString()
         .toLowerCase()
-        .includes(value.toLowerCase()),
+        .includes(value.toLowerCase())
   });
 
   const { data, error, isPending, isRejected, run } = useAsync({
@@ -120,7 +120,9 @@ const Home = () => {
             <Icon type="delete" theme="twoTone" twoToneColor="#eb2f96" />
           </Popconfirm>
           <Divider type="vertical" />
-          <Icon type="edit" theme="twoTone" />
+          <Icon type="edit" theme="twoTone" onClick={() => {
+            navigate(`/update-announcement/${record.id}`);
+          }}/>
         </span>
       )
     }
@@ -131,18 +133,16 @@ const Home = () => {
   }
 
   async function onDeleteConfirmed(id) {
-    const res = deleteNews(id).catch(() => {
-      message.error("No se pudo eliminar la noticia. Vuelve a intentarlo")
-    })
-    if(res) {
-      run(pagination)
-      message.success('Noticia eliminada con éxito')
-    }
+    await deleteNews(id).catch(() => {
+      message.error('No se pudo eliminar la noticia. Vuelve a intentarlo');
+    });
+    run(pagination);
+    message.success('Noticia eliminada con éxito');
   }
 
   function onPaginationChange(page) {
-    pagination.skip = (page-1) * pagination.limit
-    console.log("TCL: onPaginationChange -> pagination", pagination)
+    pagination.skip = (page - 1) * pagination.limit;
+    console.log('TCL: onPaginationChange -> pagination', pagination);
     run(pagination);
   }
   return (

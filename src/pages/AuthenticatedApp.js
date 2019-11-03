@@ -7,6 +7,8 @@ import AnnouncementForm from "./AnnouncementForm";
 import Home from "./Home";
 import AnnouncementDetail from "./AnnouncementDetail";
 import NotFound from "./NotFound";
+import CreateAnnouncement from "./CreateAnnouncement";
+import UpdateAnnouncement from "./UpdateAnnouncement";
 
 const { Footer, Content } = Layout;
 
@@ -29,7 +31,8 @@ const AuthenticatedApp = ({ user }) => {
       >
         <Profile path="/profile" />
         <AnnouncementDetail path="/announcements/:id" />
-        <AnnouncementForm path="/announcements" />
+        <UpdateAnnouncement path="/update-announcement/:id" />
+        <CreateAnnouncement path="/create-announcement" />
         <Home path="/" />
         <NotFound default />
       </Router>

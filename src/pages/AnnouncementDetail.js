@@ -4,6 +4,7 @@ import { index } from "../services/news-client";
 import CardContainer from "../components/CardContainer";
 import { Skeleton, Typography, Icon, Tag } from "antd";
 import dayjs from "dayjs";
+import ImageViewer from "../components/ImageViewer";
 
 const AnnouncementDetail = ({ id }) => {
   const { data, error, isPending, isRejected } = useAsync({
@@ -16,24 +17,7 @@ const AnnouncementDetail = ({ id }) => {
     <CardContainer>
       <Skeleton loading={isPending} active>
         {data && data.image && (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              width: '100%',
-              height: 400
-            }}
-          >
-            <img
-              alt="Imagen de noticia"
-              style={{
-                height: '100%',
-                width: '100%',
-                objectFit: 'contain'
-              }}
-              src={data.image}
-            />
-          </div>
+          <ImageViewer image={data.image}/>
         )}
         <Typography.Title level={2}>{data && data.title}</Typography.Title>
         <div style={{ marginBottom: 16 }}>

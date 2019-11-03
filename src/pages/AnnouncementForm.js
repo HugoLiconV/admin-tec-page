@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { Typography, Form, Input, Radio, Select, Button, Upload, Icon, message } from 'antd';
-import { navigate } from '@reach/router';
 import CardContainer from '../components/CardContainer';
 import { careers } from '../constants';
 import CloudinaryService from '../services/cloudinary-client';
 import { createNews } from '../services/news-client';
+import ImageViewer from '../components/ImageViewer';
 
 const { Title, Text } = Typography;
 const { TextArea } = Input;
 
-const AnnouncementForm = ({ form }) => {
+const AnnouncementForm = ({ form, onSubmit, submitLoading, announcement }) => {
   const [imageUrl, setImageUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [uploadedImageUrl, setUploadedImageUrl] = useState();
@@ -20,17 +20,10 @@ const AnnouncementForm = ({ form }) => {
     form.validateFields((err, values) => {
       if (!err && !loading) {
         setLoading(true);
-        if(uploadedImageUrl) {
+        if (uploadedImageUrl) {
           values.image = uploadedImageUrl;
         }
-        const res = createNews(values).catch(() => {
-          message.error("No se pudo crear noticia, vuelve a intentarlo")
-        })
-        setLoading(false)
-        if(res) {
-          message.success("Noticia creada con éxito.")
-          navigate('/');
-        }
+        onSubmit(values);
       }
     });
   }
@@ -68,32 +61,39 @@ const AnnouncementForm = ({ form }) => {
     });
   }
   return (
-    <CardContainer>
-      <Upload
-        accept="image/*"
-        name="Imagen de anuncio"
-        listType="picture-card"
-        className="avatar-uploader"
-        showUploadList={false}
-        customRequest={uploadImage}
-        onChange={handleChange}
-      >
-        {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-      </Upload>
-      <Title level={2}>Crear nuevo anuncio</Title>
+    <div>
+      {announcement && announcement.image && <ImageViewer image={announcement.image} />}
+      <div >
+        <Upload
+        style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}
+          accept="image/*"
+          name="Imagen de anuncio"
+          listType="picture-card"
+          className="avatar-uploader"
+          showUploadList={false}
+          customRequest={uploadImage}
+          onChange={handleChange}
+        >
+          {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+        </Upload>
+      </div>
       <Form layout="vertical" onSubmit={handleSubmit}>
         <Form.Item label="Título">
           {getFieldDecorator('title', {
-            rules: [{ required: true, message: 'Introduce el título.' }]
+            rules: [{ required: true, message: 'Introduce el título.' }],
+            initialValue: (announcement && announcement.title) || ''
           })(<Input />)}
         </Form.Item>
         <Form.Item label="Contenido">
           {getFieldDecorator('content', {
-            rules: [{ required: true, message: 'Introduce el contenido.' }]
+            rules: [{ required: true, message: 'Introduce el contenido.' }],
+            initialValue: (announcement && announcement.content) || ''
           })(<TextArea />)}
         </Form.Item>
         <Form.Item label="Carreras a notificar. Deja vació para notificarle a todos.">
-          {getFieldDecorator('tags')(
+          {getFieldDecorator('tags', {
+            initialValue: (announcement && announcement.tags && announcement.tags) || []
+          })(
             <Select mode="multiple" style={{ width: '100%' }} placeholder="Selecciona una carrera.">
               {careers.map(({ name, value }) => (
                 <Select.Option key={value} value={value}>
@@ -103,11 +103,11 @@ const AnnouncementForm = ({ form }) => {
             </Select>
           )}
         </Form.Item>
-        <Button loading={loading} block type="primary" htmlType="submit">
-          Crear anuncio
+        <Button loading={loading || submitLoading} block type="primary" htmlType="submit">
+          Aceptar
         </Button>
       </Form>
-    </CardContainer>
+    </div>
   );
 };
 
